@@ -1,26 +1,32 @@
-import MongoClient from 'mongodb'
+require('dotenv').config()
+const {MongoClient} = require('mongodb');
 
 // Connection parameters for the database
 // TODO: Move this sensitive info to a dotenv file
-const uri = 'mongodb+srv://kadrez:LGTCznCGVNZRzIbK@cluster0.ccolx.mongodb.net/<dbname>?retryWrites=true&w=majority'
-const dbName = 'garden'
+const uri = process.env.DB_HOST
+const dbName = process.env.DB_NAME
 
 /**
  * Creates a asyncronous connection to Mongo database
  * Assigns a name to the database
- * @returns The estabilished connection to de database 
+ * @returns The estabilished connection to the database 
  */
 
-export async function connect() {
+ export async function connect(){
+  
+    const client = new MongoClient(uri);
+ 
     try {
-        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+        // Connect to the MongoDB cluster
+        await client.connect();
         const db = client.db(dbName)
-        if (db) {
-            console.log("Connection with Database established!")
+        if(db){
+            console.log("Connection with database established!")
         }
         return db
     } catch (e) {
-        console.log("Error:", e)
-    }
-
+        console.error(e);
+    } 
 }
+
+
