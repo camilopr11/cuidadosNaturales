@@ -17,11 +17,10 @@ router.post('/createPlants', async (req, res) => {
         order: req.body.order,
         img_url: req.body.img_url
     }
-    const result = await new PlantController.createPlant(plant)
-
-    res.status(200).json({
-        success: true,
-        "data": result
-    })
+    if(plant.name && plant.type && plant.scientific_name && plant.order && plant.img_url){
+        const result = await new PlantController.createPlant(plant)
+        return res.status(201).json("plant created");
+    }
+    res.status(400).json("plant not created")
 })
-export default router
+module.exports = router;

@@ -1,16 +1,8 @@
-import '@babel/polyfill'
+import 'regenerator-runtime/runtime'
+const app = require('./app');
 
-import app from './app'
+const server = app.listen(3000, function(){
+    console.log('Server listening on: http://localhost:3000');
+}); 
 
-
-async function main() {
-    try {
-        await app.listen(app.get('port'));
-        console.log('Server listening on: http://localhost:3000')
-    } catch (e) {
-        console.error(e)
-    }
-
-}
-
-main();
+module.exports = server;

@@ -1,18 +1,11 @@
-import express, { json } from 'express'
-import IndexRoutes from './routes/index.routes'
-import PlantsRoutes from './routes/plants.routes'
-import AlertsRoutes from './routes/alerts.routes'
-import EnciclopediaRoutes from './routes/enciclopedia.routes'
-const app = express() 
+const express = require('express');
+const indexRoutes = require('./routes/index.routes');
+const plantsRoutes = require('./routes/plants.routes');
+const app = express(); 
+app.use(express.json());
 
-// Settings
-app.set('port', process.env.PORT || 3000)
-app.use(json())
+app.use(indexRoutes);
+app.use(plantsRoutes);
 
-// Routes
-app.use(IndexRoutes)
-app.use(PlantsRoutes)
-app.use(AlertsRoutes)
-app.use(EnciclopediaRoutes)
 
-export default app
+module.exports = app;
