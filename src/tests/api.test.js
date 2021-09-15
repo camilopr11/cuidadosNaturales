@@ -40,7 +40,7 @@ describe("POST /createPlants", () => {
 
     it("respond with 400 on bad request", (done) => {
         const data = {
-          // no username and password
+          // no data
         };
         request(app)
           .post("/createPlants")
