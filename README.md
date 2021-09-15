@@ -19,4 +19,5 @@ Esta opcion crea una carpeta *dist/*
 ## Correr proyecto de producción
 `npm run start` 
 
-
+## Correr test
+`npm run test`
