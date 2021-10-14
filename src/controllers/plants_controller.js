@@ -65,4 +65,4 @@ const deleteById = async (id) => {
     return result
 }
 
-module.exports = {listInfo, saveInfo, findById, findByType, findByName,findByScientificName, updateById, deleteById} 
+module.exports = {listInfo, saveInfo, findById, findByType, findByName,findByScientificName, updateById, deleteById}
