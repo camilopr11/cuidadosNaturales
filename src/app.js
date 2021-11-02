@@ -4,6 +4,7 @@ var PlantsRoutes = require('./routes/plants.routes')
 var AlertsRoutes = require('./routes/alerts.routes')
 var EnciclopediaRoutes = require('./routes/enciclopedia.routes')
 var UsersRoutes = require('./routes/users.routes')
+var ForumRoutes = require('./routes/forum.routes')
 var app = express() 
 
 // Settings
@@ -16,5 +17,6 @@ app.use(PlantsRoutes)
 app.use(AlertsRoutes)
 app.use(EnciclopediaRoutes)
 app.use(UsersRoutes)
+app.use(ForumRoutes)
 
 module.exports = app

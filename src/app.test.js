@@ -1,10 +1,12 @@
 const app = require('./app')
 const request = require('supertest');
-import { ObjectID } from 'bson';
+import { ObjectId, ObjectID } from 'bson';
 import 'regenerator-runtime/runtime'
+
 /**
  * Testing get all plants endpoint
  */
+
 describe("Plants API", () => {
     it("GET /plants --> array plants", () => {
         return request(app)
@@ -31,6 +33,7 @@ describe("Plants API", () => {
 /**
  * Testing get specific plant endpoint
  */
+
 it("GET /plants/:id --> specific plant by ID", () => {
     return request(app)
         .get("/plants/5fb6ee21fd323d0017146113")
@@ -40,13 +43,13 @@ it("GET /plants/:id --> specific plant by ID", () => {
         .then((response) => {
             expect(response.body).toEqual(
                 expect.anything([{
-                        _id: expect.any(ObjectID),
-                        img_url: expect.any(String),
-                        name: expect.any(String),
-                        order: expect.any(String),
-                        scientific_name: expect.any(String),
-                        type: expect.any(String),  
-                }])                                              
+                    _id: expect.any(ObjectID),
+                    img_url: expect.any(String),
+                    name: expect.any(String),
+                    order: expect.any(String),
+                    scientific_name: expect.any(String),
+                    type: expect.any(String),
+                }])
             )
         })
 });
@@ -54,11 +57,12 @@ it("GET /plants/:id --> specific plant by ID", () => {
 /**
  * Testing specific plant not found
  */
+
 it("GET /plants/:id --> {} not found", () => {
     return request(app)
         .get("/plants/1")
         .then((response) => {
-            expect(response.body).toEqual({})                                              
+            expect(response.body).toEqual({})
         })
 });
 
@@ -92,6 +96,166 @@ it("POST /plants/ --> 400 on bad request", (done) => {
         .expect("Content-Type", /json/)
         .expect(400)
         .expect('"plant not created"')
+        .end((err) => {
+            if (err) return done(err);
+            done();
+        });
+});
+
+/**
+ * Testing get all topics endpoint
+ */
+describe("Forum API", () => {
+    it("GET /topics --> array topics", () => {
+        return request(app)
+            .get("/topics")
+            .set("Accept", "application/json")
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            user: expect.any(String),
+                            title: expect.any(String),
+                            body: expect.any(String),
+                            date: expect.any(String),
+                        }),
+                    ])
+                )
+            })
+    });
+});
+
+/**
+ * Testing get specific topic by id
+ */
+it("GET /topics/:id --> specific topic by ID", () => {
+    return request(app)
+        .get("/topics/6181948bfa803437603b6038")
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toEqual(
+                expect.anything([{
+                    _id: expect.any(ObjectID),
+                    user: expect.any(String),
+                    title: expect.any(String),
+                    body: expect.any(String),
+                    date: expect.any(Date),
+                }])
+            )
+        })
+});
+
+/**
+ * Testing specific topic by id not found
+ */
+it("GET /topics/:id --> {} not found", () => {
+    return request(app)
+        .get("/plants/1")
+        .then((response) => {
+            expect(response.body).toEqual({})
+        })
+});
+
+/**
+ * Testing get specific topic by title
+ */
+it("GET /topics/title/:title --> specific topic by title", () => {
+    return request(app)
+        .get("/topics/title/test")
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .then((response) => {
+            expect(response.body).toEqual(
+                expect.anything([{
+                    _id: expect.any(ObjectID),
+                    user: expect.any(String),
+                    title: expect.any(String),
+                    body: expect.any(String),
+                    date: expect.any(Date),
+                }])
+            )
+        })
+});
+
+/**
+ * Testing specific topic by title not found
+ */
+it("GET /topics/title/:title --> [] not found", () => {
+    return request(app)
+        .get("/topics/title/1")
+        .then((response) => {
+            expect(response.body).toEqual([])
+        })
+});
+
+
+/**
+ * Testing POST topics endpoint
+ */
+it("POST /topics/ --> created topic", () => {
+    const data = {
+        user: "camilopr11",
+        title: "test",
+        body: "This is a test",
+        date: new Date()
+    };
+    return request(app)
+        .post("/topics")
+        .send(data)
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(201)
+});
+
+it("POST /topics/ --> 400 on bad request", (done) => {
+    const data = {
+        // no data
+    };
+    request(app)
+        .post("/topics")
+        .send(data)
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(400)
+        .expect('"topic not created"')
+        .end((err) => {
+            if (err) return done(err);
+            done();
+        });
+});
+
+/**
+ * Testing PATCH topic endpoint
+ */
+it("PATCH /topics/:id --> updated topic", () => {
+    const data = {
+        title: "test updated",
+        body: "This is a updated test"
+    };
+    return request(app)
+        .patch("/topics/6181948bfa803437603b6038")
+        .send(data)
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(200)
+});
+
+it("PATCH /topics/:id --> 400 on bad request", (done) => {
+    const data = {
+        // no data
+    };
+    request(app)
+        .patch("/topics/1")
+        .send(data)
+        .set("Accept", "application/json")
+        .expect("Content-Type", /json/)
+        .expect(400)
+        .expect('"topic not updated"')
         .end((err) => {
             if (err) return done(err);
             done();
