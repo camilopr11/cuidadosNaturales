@@ -18,3 +18,4 @@ app.use(EnciclopediaRoutes)
 app.use(UsersRoutes)
 
 module.exports = app
+

@@ -21,9 +21,8 @@ const dbName = process.env.DB_NAME
         await client.connect();
         const db = client.db(dbName)
         if(db){
-            console.log("Connection with database established!")
+            return db
         }
-        return db
     } catch (e) {
         console.error(e);
     } 
