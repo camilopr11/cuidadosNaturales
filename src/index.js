@@ -1,6 +1,6 @@
-import '@babel/polyfill'
+import 'regenerator-runtime/runtime'
 
-import app from './app'
+const app = require('./app')
 
 
 async function main() {
