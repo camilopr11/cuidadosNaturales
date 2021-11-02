@@ -1,0 +1,16 @@
+//Historias de Usuario
+
+Scenario: Como usuario puedo crear una nueva cuenta
+Given que el usuario está en la página de inicio de sesión
+When ingrese su correo, nombre, apellidos, nickname, país, contraseña
+Then el usuario debe poder iniciar sesión correctamente en la aplicación
+
+Scenario: Como usuario puedo iniciar sesión
+Given que el usuario está en la página de inicio de sesión
+When el usuario ingresa el nombre de usuario y contraseña válida
+Then el usuario debe haber iniciado sesión correctamente en la aplicación
+
+Scenario: Como usuario puedo actualizar mis datos de perfil
+Given que el usuario está registrado en la aplicación
+When se modifique la información del usuario
+Then la información del usuario debe haberse guardado
