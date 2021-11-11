@@ -1,12 +1,11 @@
 const app = require('./app')
 const request = require('supertest');
-import { ObjectId, ObjectID } from 'bson';
+import { ObjectID } from 'bson';
 import 'regenerator-runtime/runtime'
 
 /**
  * Testing get all plants endpoint
  */
-
 describe("Plants API", () => {
     it("GET /plants --> array plants", () => {
         return request(app)
@@ -33,7 +32,6 @@ describe("Plants API", () => {
 /**
  * Testing get specific plant endpoint
  */
-
 it("GET /plants/:id --> specific plant by ID", () => {
     return request(app)
         .get("/plants/5fb6ee21fd323d0017146113")
@@ -57,7 +55,6 @@ it("GET /plants/:id --> specific plant by ID", () => {
 /**
  * Testing specific plant not found
  */
-
 it("GET /plants/:id --> {} not found", () => {
     return request(app)
         .get("/plants/1")
